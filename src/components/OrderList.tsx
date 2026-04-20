@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db, type Order } from '../db/db.ts';
+import { db } from '../db/db.ts';
 import { Trash2, Search, Calendar, User, Package, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 
