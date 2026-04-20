@@ -13,6 +13,18 @@ export interface Order {
   createdAt: number;
 }
 
+export interface Product {
+  id?: number;
+  name: string;
+  image?: string; // base64
+  costPrice: number;
+  salePrice: number;
+  logisticsCost: number;
+  additionalCost: number;
+  quantity: number;
+  createdAt: number;
+}
+
 export interface Settings {
   id?: number;
   key: string;
@@ -21,12 +33,14 @@ export interface Settings {
 
 export class MyDatabase extends Dexie {
   orders!: Table<Order>;
+  products!: Table<Product>;
   settings!: Table<Settings>;
 
   constructor() {
     super('ProfitMasterDB');
-    this.version(1).stores({
+    this.version(2).stores({
       orders: '++id, personName, productName, createdAt',
+      products: '++id, name, createdAt',
       settings: '++id, key'
     });
   }

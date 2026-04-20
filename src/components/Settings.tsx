@@ -5,7 +5,8 @@ import { Download, Upload, Trash2, Info, Globe } from 'lucide-react';
 const Settings: React.FC = () => {
   const exportData = async () => {
     const orders = await db.orders.toArray();
-    const data = JSON.stringify(orders, null, 2);
+    const products = await db.products.toArray();
+    const data = JSON.stringify({ orders, products }, null, 2);
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -22,13 +23,24 @@ const Settings: React.FC = () => {
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
-        const data = JSON.parse(event.target?.result as string);
-        if (Array.isArray(data)) {
-          if (window.confirm(`${data.length}개의 데이터를 가져오시겠습니까? 기존 데이터에 추가됩니다.`)) {
-            await db.orders.bulkAdd(data);
-            alert('데이터를 성공적으로 가져왔습니다.');
-            window.location.reload();
-          }
+        const parsed = JSON.parse(event.target?.result as string);
+        
+        // Handle both old format (array of orders) and new format (object with orders/products)
+        let ordersToImport = [];
+        let productsToImport = [];
+
+        if (Array.isArray(parsed)) {
+          ordersToImport = parsed;
+        } else if (parsed.orders || parsed.products) {
+          ordersToImport = parsed.orders || [];
+          productsToImport = parsed.products || [];
+        }
+
+        if (window.confirm(`데이터를 가져오시겠습니까?\n주문: ${ordersToImport.length}건, 품목: ${productsToImport.length}건`)) {
+          if (ordersToImport.length > 0) await db.orders.bulkAdd(ordersToImport);
+          if (productsToImport.length > 0) await db.products.bulkAdd(productsToImport);
+          alert('데이터를 성공적으로 가져왔습니다.');
+          window.location.reload();
         }
       } catch (err) {
         alert('잘못된 파일 형식입니다.');
@@ -38,8 +50,9 @@ const Settings: React.FC = () => {
   };
 
   const clearData = async () => {
-    if (window.confirm('모든 데이터가 영구적으로 삭제됩니다. 계속하시겠습니까?')) {
+    if (window.confirm('모든 데이터(주문 내역 및 품목 리스트)가 영구적으로 삭제됩니다. 계속하시겠습니까?')) {
       await db.orders.clear();
+      await db.products.clear();
       alert('모든 데이터가 초기화되었습니다.');
       window.location.reload();
     }
@@ -69,7 +82,7 @@ const Settings: React.FC = () => {
 
       <Card 
         title="데이터 내보내기" 
-        description="현재까지의 모든 주문 내역을 JSON 파일로 저장합니다." 
+        description="모든 주문 내역과 품목 리스트를 JSON 파일로 저장합니다." 
         icon={Download} 
         color="#10b981"
         onClick={exportData}
@@ -79,7 +92,7 @@ const Settings: React.FC = () => {
         <input type="file" style={{ display: 'none' }} accept=".json" onChange={importData} />
         <Card 
           title="데이터 가져오기" 
-          description="백업된 JSON 파일로부터 내역을 복구합니다." 
+          description="백업된 JSON 파일로부터 데이터를 복구합니다." 
           icon={Upload} 
           color="#6366f1"
         />
@@ -103,7 +116,7 @@ const Settings: React.FC = () => {
           별도의 서버가 없으므로 정기적으로 백업 파일을 생성하는 것을 권장합니다.
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <a href="https://github.com" target="_blank" rel="noreferrer" style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', fontSize: '0.875rem' }}>
+          <a href="https://github.com/ankijung88-cloud/stock_management.git" target="_blank" rel="noreferrer" style={{ color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', fontSize: '0.875rem' }}>
             <Globe size={18} />
             GitHub에서 프로젝트 소스 보기
           </a>

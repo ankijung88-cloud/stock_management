@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../db/db.ts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Save, User, Box, Hash, CreditCard, Tag, Truck } from 'lucide-react';
 
 const OrderEntry: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const [form, setForm] = useState({
     personName: '',
     productName: '',
@@ -18,6 +20,22 @@ const OrderEntry: React.FC = () => {
     totalSalePrice: 0,
     netProfit: 0
   });
+
+  // Handle pre-filled data from URL parameters
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const name = params.get('name');
+    if (name) {
+      setForm({
+        personName: '',
+        productName: name,
+        quantity: Number(params.get('qty')) || 1,
+        costPrice: Number(params.get('cost')) || 0,
+        salePrice: Number(params.get('sale')) || 0,
+        logisticsCost: Number(params.get('logistics')) || 0
+      });
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const totalSalePrice = form.salePrice * form.quantity;
