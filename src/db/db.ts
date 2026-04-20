@@ -10,6 +10,7 @@ export interface Order {
   logisticsCost: number;
   totalSalePrice: number;
   netProfit: number;
+  notes?: string; // 자유로운 메모 필드 추가
   createdAt: number;
 }
 
@@ -38,7 +39,7 @@ export class MyDatabase extends Dexie {
 
   constructor() {
     super('ProfitMasterDB');
-    this.version(2).stores({
+    this.version(3).stores({
       orders: '++id, personName, productName, createdAt',
       products: '++id, name, createdAt',
       settings: '++id, key'
