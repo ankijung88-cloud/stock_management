@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Save, User, Box, Hash, CreditCard, Tag, Truck, FileText } from 'lucide-react';
 
 // 외부로 컴포넌트 이동하여 포커스 이슈 해결
-const InputField = ({ label, name, value, onChange, type = 'text', icon: Icon, isTextArea = false }: any) => (
+const InputField = ({ label, value, onChange, type = 'text', icon: Icon, isTextArea = false }: any) => (
   <div style={{ marginBottom: '1rem' }}>
     <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-dim)', fontSize: '0.875rem' }}>{label}</label>
     <div style={{ position: 'relative' }}>
