@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import { LayoutDashboard, PlusCircle, List, Settings as SettingsIcon, Package, Users } from 'lucide-react';
 import Dashboard from './components/Dashboard.tsx';
 import OrderEntry from './components/OrderEntry.tsx';

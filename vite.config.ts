@@ -37,7 +37,7 @@ export default defineConfig({
       }
     })
   ],
-  base: './',
+  base: '/stock_management/', // GitHub Pages 저장소 명 기준 경로 설정
   build: {
     outDir: 'docs', // GitHub Pages 설정(/docs)을 위해 출력 폴더 변경
     emptyOutDir: true,
