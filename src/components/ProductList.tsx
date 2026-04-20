@@ -103,10 +103,10 @@ const ProductList: React.FC = () => {
               ) : (
                 <>
                   <Camera size={32} color="var(--text-dim)" />
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '0.5rem' }}>사진 등록</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '0.5rem' }}>사진 촬영 또는 선택</span>
                 </>
               )}
-              <input type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={handleImageUpload} />
+              <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageUpload} />
             </label>
           </div>
 
