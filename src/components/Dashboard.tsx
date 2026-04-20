@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db.ts';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, Package, DollarSign, Truck, PlusCircle, LayoutGrid, Camera, ClipboardList } from 'lucide-react';
+import { TrendingUp, Package, DollarSign, Truck, LayoutGrid, Camera, ClipboardList } from 'lucide-react';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const orders = useLiveQuery(() => db.orders.orderBy('createdAt').toArray());
-  const productCount = useLiveQuery(() => db.products.count());
 
   const [stats, setStats] = useState({
     totalRevenue: 0,
