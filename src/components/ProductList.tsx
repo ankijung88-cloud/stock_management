@@ -69,6 +69,17 @@ const ProductList: React.FC = () => {
     navigate(`/add?${params.toString()}`);
   };
 
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.select();
+  };
+
+  // 공통 숫자 입력 핸들러
+  const handleNumberInput = (field: string, val: string) => {
+    if (val === '' || /^-?\d*\.?\d*$/.test(val)) {
+      setNewProduct(prev => ({ ...prev, [field]: val === '' ? 0 : Number(val) }));
+    }
+  };
+
   return (
     <div className="container">
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
@@ -105,6 +116,7 @@ const ProductList: React.FC = () => {
               placeholder="품목 이름" 
               value={newProduct.name} 
               onChange={e => setNewProduct({...newProduct, name: e.target.value})} 
+              onFocus={handleFocus}
               required
             />
           </div>
@@ -112,22 +124,54 @@ const ProductList: React.FC = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
             <div className="input-group">
               <label style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>기본 수량</label>
-              <input type="number" className="glass-input" value={newProduct.quantity} onChange={e => setNewProduct({...newProduct, quantity: Number(e.target.value)})} />
+              <input 
+                type="text" 
+                inputMode="numeric" 
+                className="glass-input" 
+                value={newProduct.quantity === 0 ? '' : newProduct.quantity} 
+                onChange={e => handleNumberInput('quantity', e.target.value)} 
+                onFocus={handleFocus}
+                placeholder="0"
+              />
             </div>
             <div className="input-group">
               <label style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>공급가</label>
-              <input type="number" className="glass-input" value={newProduct.costPrice} onChange={e => setNewProduct({...newProduct, costPrice: Number(e.target.value)})} />
+              <input 
+                type="text" 
+                inputMode="decimal" 
+                className="glass-input" 
+                value={newProduct.costPrice === 0 ? '' : newProduct.costPrice} 
+                onChange={e => handleNumberInput('costPrice', e.target.value)} 
+                onFocus={handleFocus}
+                placeholder="0"
+              />
             </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
             <div className="input-group">
               <label style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>판매가</label>
-              <input type="number" className="glass-input" value={newProduct.salePrice} onChange={e => setNewProduct({...newProduct, salePrice: Number(e.target.value)})} />
+              <input 
+                type="text" 
+                inputMode="decimal" 
+                className="glass-input" 
+                value={newProduct.salePrice === 0 ? '' : newProduct.salePrice} 
+                onChange={e => handleNumberInput('salePrice', e.target.value)} 
+                onFocus={handleFocus}
+                placeholder="0"
+              />
             </div>
             <div className="input-group">
               <label style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>물류비</label>
-              <input type="number" className="glass-input" value={newProduct.logisticsCost} onChange={e => setNewProduct({...newProduct, logisticsCost: Number(e.target.value)})} />
+              <input 
+                type="text" 
+                inputMode="decimal" 
+                className="glass-input" 
+                value={newProduct.logisticsCost === 0 ? '' : newProduct.logisticsCost} 
+                onChange={e => handleNumberInput('logisticsCost', e.target.value)} 
+                onFocus={handleFocus}
+                placeholder="0"
+              />
             </div>
           </div>
 
