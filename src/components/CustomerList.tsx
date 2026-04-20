@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db.ts';
 import { useNavigate } from 'react-router-dom';
-import { User, ChevronRight, ShoppingBag, TrendingUp, DollarSign, Calendar, PlusCircle, ArrowLeft } from 'lucide-react';
+import { User, ChevronRight, ShoppingBag, TrendingUp, PlusCircle, ArrowLeft } from 'lucide-react';
 import { format } from 'date-fns';
 
 const CustomerList: React.FC = () => {
