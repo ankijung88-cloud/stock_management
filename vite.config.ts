@@ -37,5 +37,9 @@ export default defineConfig({
       }
     })
   ],
-  base: './', // GitHub Pages 배포를 위해 상대 경로 사용
+  base: './',
+  build: {
+    outDir: 'docs', // GitHub Pages 설정(/docs)을 위해 출력 폴더 변경
+    emptyOutDir: true,
+  }
 });
