@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db, type Product } from '../db/db.ts';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Camera, Trash2, Tag, DollarSign, Calculator, Box, Truck, PlusSquare } from 'lucide-react';
+import { Plus, Camera, Trash2, PlusSquare } from 'lucide-react';
 
 const ProductList: React.FC = () => {
   const navigate = useNavigate();
